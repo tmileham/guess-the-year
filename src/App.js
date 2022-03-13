@@ -9,7 +9,8 @@ const App = () => {
   const TEMP_EXAMPLE_MOVIE_ID = "tt0114709";
 
   //States
-  const [movies, setMovies] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [movie, setMovie] = useState();
 
   // useEffect hook run on app launch, for now.
   useEffect(() => {
@@ -19,15 +20,24 @@ const App = () => {
   // Retrieve Data from API
   const searchMovie = async (id) => {
     const response = await fetch(`${API_KEY + id}`);
-    const data = response.json();
-    setMovies(data);
-    console.log(movies);
+    const data = await response.json();
+
+    setMovie(data);
+    setLoading(false);
   };
 
   return (
     <div className="App">
-      <h1 className="title">Guess the year</h1>
-      <MovieCard />
+      <h1 className="title">Guess the year of release?</h1>
+      {isLoading ? (
+        <div className="loading">Loading Movie</div>
+      ) : (
+        <MovieCard
+          movieTitle={movie.Title}
+          moviePoster={movie.Poster}
+          movieYear={movie.Year}
+        />
+      )}
     </div>
   );
 };

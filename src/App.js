@@ -6,7 +6,7 @@ import MovieCard from "./components/MovieCard";
 
 const App = () => {
   // Example Movie, for now.
-  const TEMP_EXAMPLE_MOVIE_ID = "tt0114709";
+  const TEMP_EXAMPLE_MOVIE_ID = "tt0088763";
 
   //States
   const [isLoading, setLoading] = useState(true);

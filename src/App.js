@@ -6,16 +6,17 @@ import MovieCard from "./components/MovieCard";
 
 const App = () => {
   // Example Movie, for now.
-  const TEMP_EXAMPLE_MOVIE_ID = "tt0088763";
-
+  const TEMP_EXAMPLE_MOVIE_ID = "tt0114709";
+  //Back to the future tt0088763
   //States
   const [isLoading, setLoading] = useState(true);
+  const [currentQuestion, setCurrentQuestion] = useState("tt0114709");
   const [movie, setMovie] = useState();
 
   // useEffect hook run on app launch, for now.
   useEffect(() => {
-    searchMovie(TEMP_EXAMPLE_MOVIE_ID);
-  }, []);
+    searchMovie(currentQuestion);
+  }, [currentQuestion]);
 
   // Retrieve Data from API
   const searchMovie = async (id) => {
@@ -33,6 +34,8 @@ const App = () => {
         <div className="loading">Loading Movie</div>
       ) : (
         <MovieCard
+          currentQuestion={currentQuestion}
+          setCurrentQuestion={setCurrentQuestion}
           movieTitle={movie.Title}
           moviePoster={movie.Poster}
           movieYear={movie.Year}

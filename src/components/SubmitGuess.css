@@ -1,0 +1,25 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+form label {
+  color: gray;
+  font-size: 0.72rem;
+}
+
+form input[type="text"] {
+  padding: 0.2rem;
+  text-align: center;
+}
+
+form button {
+  padding: 0.4rem;
+  background-color: aqua;
+  color: #000;
+  border-radius: 8px;
+  font-weight: 600;
+}

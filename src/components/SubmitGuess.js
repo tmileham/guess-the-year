@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "./SubmitGuess.css";
+
 const SubmitGuess = ({ movieYear, setCurrentQuestion }) => {
   const [guess, setGuess] = useState("");
 
@@ -23,7 +25,7 @@ const SubmitGuess = ({ movieYear, setCurrentQuestion }) => {
       <input
         type="text"
         pattern="\d*"
-        // maxlength="4"
+        maxLength="4"
         name="year_guess"
         id="year_guess"
         onChange={guessHandler}

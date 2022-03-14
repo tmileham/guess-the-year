@@ -5,11 +5,10 @@ import API_KEY from "./API_KEY";
 import MovieCard from "./components/MovieCard";
 
 const App = () => {
-  // Example Movie, for now.
-  const TEMP_EXAMPLE_MOVIE_ID = "tt0114709";
-  //Back to the future tt0088763
   //States
   const [isLoading, setLoading] = useState(true);
+  const [questionSet, setQuestionSet] = useState(["tt0114709", "tt0088763"]);
+
   const [currentQuestion, setCurrentQuestion] = useState("tt0114709");
   const [movie, setMovie] = useState();
 
@@ -17,6 +16,8 @@ const App = () => {
   useEffect(() => {
     searchMovie(currentQuestion);
   }, [currentQuestion]);
+
+  const createQuestionSet = () => {};
 
   // Retrieve Data from API
   const searchMovie = async (id) => {
@@ -29,7 +30,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="title">Guess the year of release?</h1>
+      <h1 className="title">Guess the year</h1>
       {isLoading ? (
         <div className="loading">Loading Movie</div>
       ) : (

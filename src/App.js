@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 // Components
 import MovieCard from "./components/MovieCard";
+import YearPicker from "./components/YearPicker.js";
+import SubmitGuess from "./components/SubmitGuess";
 // API Import
 import MovieAPI from "./MovieAPI";
 
@@ -15,6 +17,7 @@ const App = () => {
   const [questionSet, setQuestionSet] = useState([]);
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [year, setYear] = useState("");
   const [score, setScore] = useState(0);
 
   const startGame = async () => {
@@ -50,8 +53,8 @@ const App = () => {
       ) : (
         <>
           <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
-
-          <button onClick={nextQuestion}>Submit answer</button>
+          <YearPicker year={year} setYear={setYear} />
+          <SubmitGuess nextQuestion={nextQuestion} />
         </>
       )}
     </div>

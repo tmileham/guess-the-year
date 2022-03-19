@@ -16,9 +16,11 @@ const App = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
 
-  const startGame = () => {
+  const startGame = async () => {
     // setLoading(true);
-    setQuestionSet(MovieAPI(QuestionSet1));
+    // const currentQuestionSet = ;
+    setQuestionSet(await MovieAPI(QuestionSet1));
+
     // setQuestionSet([...currentQuestionSet]);
     // setCurrentQuestionNumber(currentQuestionNumber + 1);
     // setScore(0);

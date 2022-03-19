@@ -1,10 +1,5 @@
 const API = "https://www.omdbapi.com/?apikey=42041cf9&i=";
 
-// const MovieAPI = async (id) => {
-//   const data = await (await fetch(`${API + id}`)).json();
-//   return data;
-// };
-
 //prettier-ignore
 const MovieAPI = async (arr) => {
   

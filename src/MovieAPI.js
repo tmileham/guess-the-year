@@ -8,6 +8,8 @@ const MovieAPI = async (arr) => {
         const response = await fetch(`${API + MovieId}`)
         console.log(response);
         const data = await response.json();
+
+        console.log(data);
         return data;
     }
     )

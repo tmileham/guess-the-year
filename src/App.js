@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import QuestionCard from "./components/QuestionCard";
-
+// Components
+import MovieCard from "./components/MovieCard";
+// API Import
 import MovieAPI from "./MovieAPI";
 
 const App = () => {
@@ -12,29 +13,47 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [questionSet, setQuestionSet] = useState([]);
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
 
   const startGame = async () => {
-    // setLoading(true);
-    // const currentQuestionSet = ;
+    setLoading(true);
+    setGameOver(false);
     setQuestionSet(await MovieAPI(QuestionSet1));
-
-    // setQuestionSet([...currentQuestionSet]);
-    // setCurrentQuestionNumber(currentQuestionNumber + 1);
-    // setScore(0);
-    // setLoading(false);
+    setScore(0);
+    setCurrentQuestionNumber(0);
+    setLoading(false);
   };
 
-  const nextQuestion = () => {};
+  // // UseEffect alternative for StartGame
+  // useEffect(() => {
+  //  setLoading(true);
+  //  setGameOver(false);
+  //   (async () => {
+  //     setQuestionSet(await MovieAPI(QuestionSet1));
+  //   })();
+  // setScore(0);
+  // setCurrentQuestionNumber(0);
+  // setLoading(false);
+  // }, []);
+
+  const nextQuestion = () => {
+    setCurrentQuestionNumber(currentQuestionNumber + 1);
+  };
 
   return (
     <div className="App">
       <h1>Guess the Year</h1>
-      <button onClick={startGame}>Start Game</button>
-      <QuestionCard />
-      {currentQuestionNumber}
+      {!gameOver && questionSet.length === 0 ? (
+        <button onClick={startGame}>Start Game</button>
+      ) : (
+        <>
+          <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
+
+          <button onClick={nextQuestion}>Submit answer</button>
+        </>
+      )}
     </div>
   );
 };

@@ -1,47 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
+import QuestionCard from "./components/QuestionCard";
 
-import API_KEY from "./API_KEY";
-import MovieCard from "./components/MovieCard";
+import MovieAPI from "./MovieAPI";
 
 const App = () => {
-  //States
-  const [isLoading, setLoading] = useState(true);
-  const [questionSet, setQuestionSet] = useState(["tt0114709", "tt0088763"]);
+  // Array of Movies - TODO: Allow user to dynamically create these
+  const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
 
-  const [currentQuestion, setCurrentQuestion] = useState("tt0114709");
-  const [movie, setMovie] = useState();
+  // States
+  const [loading, setLoading] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [questionSet, setQuestionSet] = useState([]);
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [score, setScore] = useState(0);
 
-  // useEffect hook run on app launch, for now.
-  useEffect(() => {
-    searchMovie(currentQuestion);
-  }, [currentQuestion]);
-
-  const createQuestionSet = () => {};
-
-  // Retrieve Data from API
-  const searchMovie = async (id) => {
-    const response = await fetch(`${API_KEY + id}`);
-    const data = await response.json();
-
-    setMovie(data);
-    setLoading(false);
+  const startGame = () => {
+    // setLoading(true);
+    setQuestionSet(MovieAPI(QuestionSet1));
+    // setQuestionSet([...currentQuestionSet]);
+    // setCurrentQuestionNumber(currentQuestionNumber + 1);
+    // setScore(0);
+    // setLoading(false);
   };
+
+  const nextQuestion = () => {};
 
   return (
     <div className="App">
-      <h1 className="title">Guess the year</h1>
-      {isLoading ? (
-        <div className="loading">Loading Movie</div>
-      ) : (
-        <MovieCard
-          currentQuestion={currentQuestion}
-          setCurrentQuestion={setCurrentQuestion}
-          movieTitle={movie.Title}
-          moviePoster={movie.Poster}
-          movieYear={movie.Year}
-        />
-      )}
+      <h1>Guess the Year</h1>
+      <button onClick={startGame}>Start Game</button>
+      <QuestionCard />
+      {currentQuestionNumber}
     </div>
   );
 };

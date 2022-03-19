@@ -40,8 +40,16 @@ const App = () => {
   // setCurrentQuestionNumber(0);
   // setLoading(false);
   // }, []);
+  const checkAnswer = () => {
+    if (+year == +questionSet[[currentQuestionNumber]].Year) {
+      console.log("You DE MAN");
+    } else {
+      console.log("WRONG!");
+    }
+  };
 
   const nextQuestion = () => {
+    checkAnswer();
     setCurrentQuestionNumber(currentQuestionNumber + 1);
   };
 
@@ -54,7 +62,7 @@ const App = () => {
         <>
           <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
           <YearPicker year={year} setYear={setYear} />
-          <SubmitGuess nextQuestion={nextQuestion} />
+          <SubmitGuess nextQuestion={nextQuestion} checkAnswer={checkAnswer} />
         </>
       )}
     </div>

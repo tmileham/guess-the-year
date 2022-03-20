@@ -40,6 +40,10 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
+.format {
+  font-size: 0.7rem;
+}
+
 .submitButton {
   padding: 0.8rem;
   border-radius: 8px;

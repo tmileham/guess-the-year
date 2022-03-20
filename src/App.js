@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 // Components
+import StartGame from "./components/StartGame";
 import MovieCard from "./components/MovieCard";
 import SubmitGuess from "./components/SubmitGuess";
+import GameOver from "./components/GameOver";
 
 // API Import
 import MovieAPI from "./MovieAPI";
 
 // CONSTANTS
-const NUMBEROFGUESSES = 3;
+const NUMBER_OF_USER_GUESSES = 3;
+const CURRENT_YEAR = new Date().getFullYear();
 
 const App = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
-  const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
-
+  // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
+  const QuestionSet1 = ["tt1877830"];
   // States
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -23,15 +26,25 @@ const App = () => {
   const [result, setResult] = useState([]);
   const [year, setYear] = useState("");
   const [score, setScore] = useState(0);
-  const [remainingGuesses, setRemainingGuesses] = useState(NUMBEROFGUESSES);
+  const [remainingGuesses, setRemainingGuesses] = useState(
+    NUMBER_OF_USER_GUESSES
+  );
 
+  // functions
   const startGame = async () => {
     setLoading(true);
     setGameOver(false);
     setQuestionSet(await MovieAPI(QuestionSet1));
     setScore(0);
+    setRemainingGuesses(NUMBER_OF_USER_GUESSES);
     setCurrentQuestionNumber(0);
     setLoading(false);
+  };
+
+  const checkGameOver = () => {
+    if (currentQuestionNumber === questionSet.length - 1) {
+      setGameOver(true);
+    }
   };
 
   // // UseEffect alternative for StartGame
@@ -50,71 +63,73 @@ const App = () => {
     setYear("");
   }, [currentQuestionNumber]);
 
-  const checkAnswer = () => {
-    if (+year === +questionSet[[currentQuestionNumber]].Year) {
-      console.log("You DE MAN");
-      setCurrentQuestionNumber(currentQuestionNumber + 1);
-      setScore(score + 1);
-      //
-    } else {
-      if (remainingGuesses === 1) {
-        setCurrentQuestionNumber(currentQuestionNumber + 1);
-        setRemainingGuesses(3);
-        return;
-      }
-      setRemainingGuesses(remainingGuesses - 1);
-    }
-  };
-
-  const currentYear = new Date().getFullYear();
-
-  const nextQuestion = (e) => {
+  const checkAnswer = (e) => {
     e.preventDefault();
-
-    if (year === "" || +year > currentYear) {
-      alert(`Invalid answer. Enter a year between 1900 and ${currentYear}`);
+    console.log(CURRENT_YEAR);
+    console.log(year);
+    // Check if valid input
+    if (year === "" || Number(year) > CURRENT_YEAR || Number(year) < 1900) {
+      alert(`Please enter a year between 1900 and ${CURRENT_YEAR}`);
       setYear("");
       return;
     }
-    checkAnswer();
+
+    //prettier-ignore
+
+    // Correct Answer
+    if (+year === +questionSet[[currentQuestionNumber]].Year) {
+      setCurrentQuestionNumber(currentQuestionNumber + 1);
+      setScore(score + 1);
+      checkGameOver();
+
+    } else {
+      // Wrong Answer & Run out of guesses - Moves onto next Question
+      if (remainingGuesses === 1) {
+        setCurrentQuestionNumber(currentQuestionNumber + 1);
+        setRemainingGuesses(NUMBER_OF_USER_GUESSES);
+        checkGameOver();
+        return;
+      }
+      // Wrong Answer & Has Guesses remaining
+      setRemainingGuesses(remainingGuesses - 1);
+    }
   };
 
   return (
     <div className="App">
       <h1>Guess the year</h1>
-      {!gameOver && questionSet.length === 0 ? (
-        <>
-          <p>Test your movie knowledge!</p>
-          <button className="startGameButton submitButton" onClick={startGame}>
-            Start Game
-          </button>
-        </>
-      ) : (
-        <div className="QuestionContainer">
-          <div className="GameInfo">
-            <h3>
-              Question {currentQuestionNumber + 1} / {questionSet.length}
-            </h3>
-            <h3>Score: {score}</h3>
+
+      {!gameOver ? (
+        questionSet.length === 0 ? (
+          <StartGame startGame={startGame} />
+        ) : (
+          <div className="QuestionContainer">
+            <div className="GameInfo">
+              <h3>
+                Question: {currentQuestionNumber + 1} / {questionSet.length}
+              </h3>
+              <h3>Score: {score}</h3>
+            </div>
+            <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
+
+            <SubmitGuess
+              year={year}
+              setYear={setYear}
+              checkAnswer={checkAnswer}
+            />
+
+            {remainingGuesses < NUMBER_OF_USER_GUESSES ? (
+              <>
+                <p className="incorrectAnswer">Incorrect answer</p>
+                <p className="remainingGuesses">
+                  Remaining guesses: {remainingGuesses}
+                </p>
+              </>
+            ) : null}
           </div>
-          <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
-
-          <SubmitGuess
-            year={year}
-            setYear={setYear}
-            nextQuestion={nextQuestion}
-            checkAnswer={checkAnswer}
-          />
-
-          {remainingGuesses < NUMBEROFGUESSES ? (
-            <>
-              <p className="incorrectAnswer">Incorrect answer</p>
-              <p className="remainingGuesses">
-                Remaining guesses: {remainingGuesses}
-              </p>
-            </>
-          ) : null}
-        </div>
+        )
+      ) : (
+        <GameOver />
       )}
       {loading && <p>Loading...</p>}
     </div>

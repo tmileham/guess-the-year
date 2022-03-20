@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 // Components
 import MovieCard from "./components/MovieCard";
@@ -41,8 +41,9 @@ const App = () => {
   // setLoading(false);
   // }, []);
   const checkAnswer = () => {
-    if (+year == +questionSet[[currentQuestionNumber]].Year) {
+    if (+year === +questionSet[[currentQuestionNumber]].Year) {
       console.log("You DE MAN");
+      //
     } else {
       console.log("WRONG!");
     }
@@ -57,14 +58,21 @@ const App = () => {
     <div className="App">
       <h1>Guess the Year</h1>
       {!gameOver && questionSet.length === 0 ? (
-        <button onClick={startGame}>Start Game</button>
-      ) : (
         <>
+          <p>Test your movie knowledge!</p>
+          <button onClick={startGame}>Start Game</button>
+        </>
+      ) : (
+        <div className="QuestionContainer">
+          <h3>
+            Question {currentQuestionNumber + 1} / {questionSet.length}
+          </h3>
           <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
           <YearPicker year={year} setYear={setYear} />
           <SubmitGuess nextQuestion={nextQuestion} checkAnswer={checkAnswer} />
-        </>
+        </div>
       )}
+      {loading && <p>Loading...</p>}
     </div>
   );
 };

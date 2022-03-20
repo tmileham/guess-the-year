@@ -14,7 +14,7 @@ const YearPicker = ({ year, setYear }) => {
         onChange={(date) => setYear(date.year())}
       />
 
-      <h5>You selected year: {year}</h5>
+      {/* <h5>You selected year: {year}</h5> */}
     </>
   );
 };

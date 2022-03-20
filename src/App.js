@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+
 // Components
 import MovieCard from "./components/MovieCard";
-import YearPicker from "./components/YearPicker.js";
 import SubmitGuess from "./components/SubmitGuess";
+
 // API Import
 import MovieAPI from "./MovieAPI";
+
+// CONSTANTS
+const NUMBEROFGUESSES = 3;
 
 const App = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
@@ -15,10 +19,11 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [questionSet, setQuestionSet] = useState([]);
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
-  const [userAnswers, setUserAnswers] = useState([]);
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
+  const [result, setResult] = useState([]);
   const [year, setYear] = useState("");
   const [score, setScore] = useState(0);
+  const [remainingGuesses, setRemainingGuesses] = useState(NUMBEROFGUESSES);
 
   const startGame = async () => {
     setLoading(true);
@@ -40,36 +45,75 @@ const App = () => {
   // setCurrentQuestionNumber(0);
   // setLoading(false);
   // }, []);
+
+  useEffect(() => {
+    setYear("");
+  }, [currentQuestionNumber]);
+
   const checkAnswer = () => {
     if (+year === +questionSet[[currentQuestionNumber]].Year) {
       console.log("You DE MAN");
+      setCurrentQuestionNumber(currentQuestionNumber + 1);
+      setScore(score + 1);
       //
     } else {
-      console.log("WRONG!");
+      if (remainingGuesses === 1) {
+        setCurrentQuestionNumber(currentQuestionNumber + 1);
+        setRemainingGuesses(3);
+        return;
+      }
+      setRemainingGuesses(remainingGuesses - 1);
     }
   };
 
-  const nextQuestion = () => {
+  const currentYear = new Date().getFullYear();
+
+  const nextQuestion = (e) => {
+    e.preventDefault();
+
+    if (year === "" || +year > currentYear) {
+      alert(`Invalid answer. Enter a year between 1900 and ${currentYear}`);
+      setYear("");
+      return;
+    }
     checkAnswer();
-    setCurrentQuestionNumber(currentQuestionNumber + 1);
   };
 
   return (
     <div className="App">
-      <h1>Guess the Year</h1>
+      <h1>Guess the year</h1>
       {!gameOver && questionSet.length === 0 ? (
         <>
           <p>Test your movie knowledge!</p>
-          <button onClick={startGame}>Start Game</button>
+          <button className="startGameButton submitButton" onClick={startGame}>
+            Start Game
+          </button>
         </>
       ) : (
         <div className="QuestionContainer">
-          <h3>
-            Question {currentQuestionNumber + 1} / {questionSet.length}
-          </h3>
+          <div className="GameInfo">
+            <h3>
+              Question {currentQuestionNumber + 1} / {questionSet.length}
+            </h3>
+            <h3>Score: {score}</h3>
+          </div>
           <MovieCard CurrentMovie={questionSet[currentQuestionNumber]} />
-          <YearPicker year={year} setYear={setYear} />
-          <SubmitGuess nextQuestion={nextQuestion} checkAnswer={checkAnswer} />
+
+          <SubmitGuess
+            year={year}
+            setYear={setYear}
+            nextQuestion={nextQuestion}
+            checkAnswer={checkAnswer}
+          />
+
+          {remainingGuesses < NUMBEROFGUESSES ? (
+            <>
+              <p className="incorrectAnswer">Incorrect answer</p>
+              <p className="remainingGuesses">
+                Remaining guesses: {remainingGuesses}
+              </p>
+            </>
+          ) : null}
         </div>
       )}
       {loading && <p>Loading...</p>}

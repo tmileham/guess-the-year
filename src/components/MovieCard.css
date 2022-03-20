@@ -1,0 +1,9 @@
+.MovieCard-Poster {
+  margin-top: 2rem;
+  height: 50vh;
+  border: 1px solid rgb(223, 129, 129);
+}
+
+.MovieCard-Title {
+  padding: 1rem;
+}

@@ -6,6 +6,57 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.startGameButton {
+  margin-top: 2rem;
+}
+
 .QuestionContainer {
+  border-radius: 10px;
+  padding: 1rem;
   background: #555555;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.GameInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.answerForm {
+  max-width: 200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.answerForm input[type="text"] {
+  border-radius: 8px;
+  border: 0;
+  padding: 0.5rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.submitButton {
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: #f50505;
+  color: #fff;
+  border: 0;
+  margin-bottom: 1rem;
+}
+
+.submitButton:hover {
+  background: #f12626;
+}
+
+.incorrectAnswer {
+  color: red;
+}
+
+.remainingGuesses {
+  font-size: 1.1rem;
 }

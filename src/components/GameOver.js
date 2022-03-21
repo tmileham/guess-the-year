@@ -5,6 +5,9 @@ const GameOver = () => {
     <>
       <p>Gameover</p>
       <p>The results were</p>
+      <ol>
+        <li></li>
+      </ol>
     </>
   );
 };

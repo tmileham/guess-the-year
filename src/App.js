@@ -47,11 +47,8 @@ const App = () => {
     }
   };
 
-  const resultHandler = (correctAnswer, userAnswer) => {
-    const arr = ["test", "test2"];
-
-    arr.push({ correctAnswer, userAnswer });
-    setResult([...result, arr]);
+  const resultHandler = (movieName, correctAnswer, userAnswer) => {
+    setResult([...result, { movieName, correctAnswer, userAnswer }]);
     console.log(result);
   };
 
@@ -72,9 +69,12 @@ const App = () => {
   }, [currentQuestionNumber]);
 
   const answerHandler = (e) => {
+    const userAnswerYear = Number(year);
+    const answerYear = Number(questionSet[[currentQuestionNumber]].Year);
+    const questionTitle = questionSet[[currentQuestionNumber]].Title;
+    const questionId = questionSet[[currentQuestionNumber]].Id;
+
     e.preventDefault();
-    console.log(CURRENT_YEAR);
-    console.log(year);
     // Check for invalid answer
     if (year === "" || Number(year) > CURRENT_YEAR || Number(year) < 1900) {
       alert(`Please enter a year between 1900 and ${CURRENT_YEAR}`);
@@ -84,19 +84,25 @@ const App = () => {
 
     // Correct Answer
     if (Number(year) === Number(questionSet[[currentQuestionNumber]].Year)) {
+      resultHandler(
+        questionSet[[currentQuestionNumber]].Title,
+        questionSet[[currentQuestionNumber]].Year,
+        year
+      );
+      setScore(score + 1);
       setCurrentQuestionNumber(currentQuestionNumber + 1);
       setRemainingGuesses(NUMBER_OF_USER_GUESSES);
-      setScore(score + 1);
-      resultHandler(questionSet[[currentQuestionNumber]].Year, Number(year));
       checkGameOver();
     } else {
       // Wrong Answer & Run out of guesses - Moves onto next Question
       if (remainingGuesses === 1) {
+        resultHandler(
+          questionSet[[currentQuestionNumber]].Title,
+          questionSet[[currentQuestionNumber]].Year,
+          year
+        );
         setCurrentQuestionNumber(currentQuestionNumber + 1);
         setRemainingGuesses(NUMBER_OF_USER_GUESSES);
-        resultHandler(
-          Number(questionSet[[currentQuestionNumber]].Year, Number(year))
-        );
         checkGameOver();
         return;
       }
@@ -139,7 +145,7 @@ const App = () => {
           </div>
         )
       ) : (
-        <GameOver />
+        <GameOver result={result} />
       )}
       {loading && <p>Loading...</p>}
     </div>

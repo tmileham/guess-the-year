@@ -16,8 +16,8 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 const App = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
-  // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
-  const QuestionSet1 = ["tt1877830"];
+  const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
+  // const QuestionSet1 = ["tt1877830"];
   // States
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -47,7 +47,15 @@ const App = () => {
     }
   };
 
-  // // UseEffect alternative for StartGame
+  const resultHandler = (correctAnswer, userAnswer) => {
+    const arr = ["test", "test2"];
+
+    arr.push({ correctAnswer, userAnswer });
+    setResult([...result, arr]);
+    console.log(result);
+  };
+
+  // // UseEffect alternative for StartGame, game starts automatically.
   // useEffect(() => {
   //  setLoading(true);
   //  setGameOver(false);
@@ -63,30 +71,32 @@ const App = () => {
     setYear("");
   }, [currentQuestionNumber]);
 
-  const checkAnswer = (e) => {
+  const answerHandler = (e) => {
     e.preventDefault();
     console.log(CURRENT_YEAR);
     console.log(year);
-    // Check if valid input
+    // Check for invalid answer
     if (year === "" || Number(year) > CURRENT_YEAR || Number(year) < 1900) {
       alert(`Please enter a year between 1900 and ${CURRENT_YEAR}`);
       setYear("");
       return;
     }
 
-    //prettier-ignore
-
     // Correct Answer
-    if (+year === +questionSet[[currentQuestionNumber]].Year) {
+    if (Number(year) === Number(questionSet[[currentQuestionNumber]].Year)) {
       setCurrentQuestionNumber(currentQuestionNumber + 1);
+      setRemainingGuesses(NUMBER_OF_USER_GUESSES);
       setScore(score + 1);
+      resultHandler(questionSet[[currentQuestionNumber]].Year, Number(year));
       checkGameOver();
-
     } else {
       // Wrong Answer & Run out of guesses - Moves onto next Question
       if (remainingGuesses === 1) {
         setCurrentQuestionNumber(currentQuestionNumber + 1);
         setRemainingGuesses(NUMBER_OF_USER_GUESSES);
+        resultHandler(
+          Number(questionSet[[currentQuestionNumber]].Year, Number(year))
+        );
         checkGameOver();
         return;
       }
@@ -115,7 +125,7 @@ const App = () => {
             <SubmitGuess
               year={year}
               setYear={setYear}
-              checkAnswer={checkAnswer}
+              answerHandler={answerHandler}
             />
 
             {remainingGuesses < NUMBER_OF_USER_GUESSES ? (

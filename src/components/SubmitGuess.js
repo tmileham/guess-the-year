@@ -1,16 +1,16 @@
 import React from "react";
 
-const SubmitGuess = ({ checkAnswer, year, setYear }) => {
+const SubmitGuess = ({ answerHandler, year, setYear }) => {
   const updateYear = (e) => {
     if (!/^$|^[0-9]+$/.test(e.target.value)) {
-      alert("Please only enter numeric characters");
+      alert("You may enter only numeric characters");
       return;
     }
     setYear(e.target.value);
   };
 
   return (
-    <form className="answerForm" onSubmit={checkAnswer}>
+    <form className="answerForm" onSubmit={answerHandler}>
       <input
         type="text"
         onChange={updateYear}

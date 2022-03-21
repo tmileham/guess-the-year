@@ -64,3 +64,21 @@ h1 {
 .remainingGuesses {
   font-size: 1.1rem;
 }
+
+.quizResultItems {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.quizResultItem {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.correctGreen {
+  color: #00ff2a;
+}
+
+.wrongRed {
+  color: #f50505;
+}

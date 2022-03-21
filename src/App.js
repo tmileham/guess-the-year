@@ -6,6 +6,7 @@ import StartGame from "./components/StartGame";
 import MovieCard from "./components/MovieCard";
 import SubmitGuess from "./components/SubmitGuess";
 import GameOver from "./components/GameOver";
+import RestartGame from "./components/RestartGame";
 
 // API Import
 import MovieAPI from "./MovieAPI";
@@ -16,8 +17,8 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 const App = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
-  const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
-  // const QuestionSet1 = ["tt1877830"];
+  // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
+  const QuestionSet1 = ["tt1877830", "tt0407887"];
   // States
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -47,8 +48,8 @@ const App = () => {
     }
   };
 
-  const resultHandler = (movieName, correctAnswer, userAnswer) => {
-    setResult([...result, { movieName, correctAnswer, userAnswer }]);
+  const resultHandler = (movieId, movieName, correctAnswer, userAnswer) => {
+    setResult([...result, { movieId, movieName, correctAnswer, userAnswer }]);
     console.log(result);
   };
 
@@ -72,35 +73,31 @@ const App = () => {
     const userAnswerYear = Number(year);
     const answerYear = Number(questionSet[[currentQuestionNumber]].Year);
     const questionTitle = questionSet[[currentQuestionNumber]].Title;
-    const questionId = questionSet[[currentQuestionNumber]].Id;
+    const questionId = questionSet[[currentQuestionNumber]].imdbID;
 
     e.preventDefault();
     // Check for invalid answer
-    if (year === "" || Number(year) > CURRENT_YEAR || Number(year) < 1900) {
+    if (
+      userAnswerYear === "" ||
+      userAnswerYear > CURRENT_YEAR ||
+      userAnswerYear < 1900
+    ) {
       alert(`Please enter a year between 1900 and ${CURRENT_YEAR}`);
       setYear("");
       return;
     }
 
     // Correct Answer
-    if (Number(year) === Number(questionSet[[currentQuestionNumber]].Year)) {
-      resultHandler(
-        questionSet[[currentQuestionNumber]].Title,
-        questionSet[[currentQuestionNumber]].Year,
-        year
-      );
+    if (userAnswerYear === answerYear) {
       setScore(score + 1);
+      resultHandler(questionId, questionTitle, answerYear, userAnswerYear);
       setCurrentQuestionNumber(currentQuestionNumber + 1);
       setRemainingGuesses(NUMBER_OF_USER_GUESSES);
       checkGameOver();
     } else {
       // Wrong Answer & Run out of guesses - Moves onto next Question
       if (remainingGuesses === 1) {
-        resultHandler(
-          questionSet[[currentQuestionNumber]].Title,
-          questionSet[[currentQuestionNumber]].Year,
-          year
-        );
+        resultHandler(questionId, questionTitle, answerYear, userAnswerYear);
         setCurrentQuestionNumber(currentQuestionNumber + 1);
         setRemainingGuesses(NUMBER_OF_USER_GUESSES);
         checkGameOver();
@@ -117,7 +114,10 @@ const App = () => {
 
       {!gameOver ? (
         questionSet.length === 0 ? (
-          <StartGame startGame={startGame} />
+          <>
+            <p>Test your movie knowledge!</p>
+            <StartGame startGame={startGame} />
+          </>
         ) : (
           <div className="QuestionContainer">
             <div className="GameInfo">
@@ -145,7 +145,14 @@ const App = () => {
           </div>
         )
       ) : (
-        <GameOver result={result} />
+        <>
+          <GameOver
+            score={score}
+            totalNumQuestions={questionSet.length}
+            result={result}
+          />
+          <RestartGame />
+        </>
       )}
       {loading && <p>Loading...</p>}
     </div>

@@ -1,13 +1,32 @@
 import React from "react";
 
-const GameOver = () => {
+const GameOver = ({ score, totalNumQuestions, result }) => {
   return (
     <>
-      <p>Gameover</p>
-      <p>The results were</p>
-      <ol>
-        <li></li>
-      </ol>
+      <h2>Gameover</h2>
+      <p>
+        Final Score: {score} out of {totalNumQuestions}
+      </p>
+      <br />
+      <p>Your results were:</p>
+      <div className="quizResultItems">
+        <ul>
+          {result.map((entry, index) => {
+            return (
+              <li key={index} className="quizResultItem">
+                <p>Movie: {entry.movieName}</p>
+                <p>Correct Answer: {entry.correctAnswer}</p>
+                <p>Your Answer: {entry.userAnswer}</p>
+                {entry.correctAnswer === entry.userAnswer ? (
+                  <p className="correctGreen">Correct!</p>
+                ) : (
+                  <p className="wrongRed">Wrong!</p>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </>
   );
 };

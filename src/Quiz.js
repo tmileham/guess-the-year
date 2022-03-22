@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 
 // Components
-import StartGame from "./components/StartGame";
-import MovieCard from "./components/MovieCard";
-import SubmitGuess from "./components/SubmitGuess";
-import GameOver from "./components/GameOver";
-import RestartGame from "./components/RestartGame";
+import StartGame from "./components/quiz/StartGame";
+import MovieCard from "./components/quiz/MovieCard";
+import SubmitGuess from "./components/quiz/SubmitGuess";
+import GameOver from "./components/quiz/GameOver";
+import RestartGame from "./components/quiz/RestartGame";
 
 // API Import
 import MovieAPI from "./MovieAPI";
@@ -109,13 +108,10 @@ const Quiz = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Guess the year</h1>
-
+    <div className="Quiz">
       {!gameOver ? (
         questionSet.length === 0 ? (
           <>
-            <p>Test your movie knowledge!</p>
             <StartGame startGame={startGame} />
           </>
         ) : (

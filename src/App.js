@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, createContext } from "react";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
@@ -6,15 +6,24 @@ import ConfigureQuiz from "./ConfigureQuiz";
 
 // Components
 import Home from "./Home";
+const QuizQuestionsContext = createContext();
 
 const App = () => {
+  const [questions, setQuestions] = useState([]);
+
+  const savedQuestions = localStorage.getItem("savedQuestions");
+  if (savedQuestions) {
+    console.log("No questions found");
+  }
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/configure" element={<ConfigureQuiz />} />
-      </Routes>
-    </Router>
+    <QuizQuestionsContext.Provider value={questions}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/configure" element={<ConfigureQuiz />} />
+        </Routes>
+      </Router>
+    </QuizQuestionsContext.Provider>
   );
 };
 

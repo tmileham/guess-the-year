@@ -7,7 +7,7 @@ import Quiz from "./Quiz";
 const Home = () => {
   return (
     <div>
-      <h1 class="title">Guess the year quiz</h1>
+      <h1 className="title">Guess the year quiz</h1>
       <p>Test your movie knowledge!</p>
       <Quiz />
       <p>Current question set:</p>

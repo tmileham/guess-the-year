@@ -11,7 +11,6 @@ const API_URL = "http://www.omdbapi.com/?apikey=42041cf9";
 const ConfigureQuiz = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
-  const [selectedMovies, setSelectedMovies] = useState([]);
 
   useEffect(() => {
     searchMovies(searchTerm);

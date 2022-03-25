@@ -6,7 +6,7 @@ import ConfigureQuiz from "./ConfigureQuiz";
 
 // Components
 import Home from "./Home";
-const QuizQuestionsContext = createContext();
+export const QuizQuestionsContext = createContext();
 
 const App = () => {
   const [questions, setQuestions] = useState([]);
@@ -16,7 +16,7 @@ const App = () => {
     console.log("No questions found");
   }
   return (
-    <QuizQuestionsContext.Provider value={questions}>
+    <QuizQuestionsContext.Provider value={{ questions, setQuestions }}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

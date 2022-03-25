@@ -113,8 +113,9 @@ h1 {
   padding: 16px;
   width: 100%;
   opacity: 0;
-  top: 0;
-  color: #f9d3b4;
+  top: 40%;
+  font-size: 2rem;
+  color: #ffffff;
 }
 
 .movie:hover {
@@ -195,18 +196,71 @@ h1 {
   padding: 0.5rem 1rem;
   background: #343739;
   position: fixed;
+  overflow: auto;
+  max-height: 30vh;
   z-index: 99;
   left: 0;
+  font-size: 0.7rem;
   bottom: 0;
   width: 100%;
 }
 
+.SelectedItemsHeader {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.SelectedItemsHeader h5 {
+  font-size: 0.9rem;
+  padding: 5px;
+}
+
 .SelectedItems button {
-  padding: 0.5rem 0.5rem;
+  padding: 0.7rem 1rem;
+  width: 25%;
+  margin-top: 5px;
+  border-radius: 8px;
+  height: fit-content;
+  border: 0;
+  color: #fff;
+  background: #f12626;
+}
+
+.SelectedItems .removeSelectionQuestionItem {
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 0;
   color: #fff;
   background: #f12626;
+}
+
+.ItemContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.selectedQuestionItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9d3b4;
+  color: #000;
+  margin: 3px;
+  border-radius: 8px;
+  display: flex;
+  font-size: 1rem;
+  justify-content: space-between;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.selectedQuestionItem p {
+  padding: 0rem 1rem;
 }
 
 @media screen and (max-width: 400px) {

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import { QuizQuestionsContext } from "../../App";
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, setSearchTerm }) => {
+  const { questions, setQuestions } = useContext(QuizQuestionsContext);
+
+  const addMovieToQuestion = () => {
+    if (!questions.includes(movie)) {
+      setQuestions([...questions, movie]);
+      setSearchTerm("");
+    }
+  };
+
   return (
-    <div className="movie">
-      <div>{/* <p>{movie.Year}</p> */}</div>
+    <div className="movie" onClick={addMovieToQuestion}>
+      <div>Select</div>
 
       <div>
         <img

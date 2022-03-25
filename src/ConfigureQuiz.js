@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import { QuizQuestionsContext } from "./App";
 
 import "./ConfigureQuiz.css";
 
@@ -9,6 +11,8 @@ import SearchIcon from "./search.svg";
 const API_URL = "http://www.omdbapi.com/?apikey=42041cf9";
 
 const ConfigureQuiz = () => {
+  const { questions, setQuestions } = useContext(QuizQuestionsContext);
+
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
 
@@ -28,12 +32,6 @@ const ConfigureQuiz = () => {
     <div className="configureContainer">
       <h1>Setup / Configure Quiz</h1>
       <p>Search and select movies for the quiz</p>
-      <div className="SelectedItems">
-        <p>Selected Movies:</p>
-        <p>No movies selected</p>
-        <button>Save</button>
-      </div>
-
       <div className="search">
         <input
           placeholder="Search for a movie"
@@ -55,7 +53,7 @@ const ConfigureQuiz = () => {
           {movies
             .filter((movie) => movie.Type === "movie" && movie.Poster !== "N/A")
             .map((movie) => (
-              <MovieResult movie={movie} />
+              <MovieResult movie={movie} setSearchTerm={setSearchTerm} />
             ))}
         </div>
       ) : (
@@ -63,6 +61,24 @@ const ConfigureQuiz = () => {
           <h2>No movies Found</h2>
         </div>
       )}
+      {/* Selected Movie Fixed Position Div */}
+      <div className="SelectedItems">
+        <div className="ItemContainer">
+          {questions.length > 0
+            ? questions.map((question) => (
+                <div className="selectedQuestionItem">
+                  <p>{question.Title}</p>
+                  <div className="removeSelectionQuestionItem">X</div>
+                </div>
+              ))
+            : null}
+        </div>
+        <div className="SelectedItemsHeader">
+          {/* <h5>Selected Movies:</h5> */}
+          <button>Save</button>
+          <button>Discard and exit</button>
+        </div>
+      </div>
     </div>
   );
 };

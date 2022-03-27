@@ -25,7 +25,19 @@ const ConfigureQuiz = () => {
     const data = await response.json();
 
     setMovies(data.Search);
-    console.log(data.Search);
+  };
+
+  const removeSelectedQuestionItem = (e) => {
+    const removeID = e.target.getAttribute("data-id");
+    const arrPosition = questions.findIndex((element) => (element = removeID));
+
+    const newArray = questions.splice(arrPosition);
+    console.log(`newArray ${newArray}`);
+
+    setQuestions(...newArray);
+
+    console.log(removeID);
+    console.log(questions);
   };
 
   return (
@@ -53,7 +65,9 @@ const ConfigureQuiz = () => {
           {movies
             .filter((movie) => movie.Type === "movie" && movie.Poster !== "N/A")
             .map((movie) => (
-              <MovieResult movie={movie} setSearchTerm={setSearchTerm} />
+              <>
+                <MovieResult movie={movie} setSearchTerm={setSearchTerm} />
+              </>
             ))}
         </div>
       ) : (
@@ -64,11 +78,17 @@ const ConfigureQuiz = () => {
       {/* Selected Movie Fixed Position Div */}
       <div className="SelectedItems">
         <div className="ItemContainer">
-          {questions.length > 0
-            ? questions.map((question) => (
+          {questions.length
+            ? questions?.map((question) => (
                 <div className="selectedQuestionItem">
                   <p>{question.Title}</p>
-                  <div className="removeSelectionQuestionItem">X</div>
+                  <div
+                    data-id={question.imdbID}
+                    className="removeSelectionQuestionItem"
+                    onClick={removeSelectedQuestionItem}
+                  >
+                    X
+                  </div>
                 </div>
               ))
             : null}

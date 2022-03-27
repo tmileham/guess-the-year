@@ -1,9 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-// Components
-import Quiz from "./Quiz";
-import StartGame from "./components/quiz/StartGame";
 
 const Header = () => {
   return (

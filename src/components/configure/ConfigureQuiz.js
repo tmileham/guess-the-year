@@ -2,9 +2,9 @@ import React from "react";
 
 import "./ConfigureQuiz.css";
 
-//components
-import MovieSearch from "./components/configure/MovieSearch";
-import QuestionSelections from "./components/configure/QuestionSelections";
+//Components
+import MovieSearch from "./MovieSearch";
+import QuestionSelections from "./QuestionSelections";
 
 const ConfigureQuiz = () => {
   return (

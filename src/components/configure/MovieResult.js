@@ -14,7 +14,6 @@ const MovieCard = ({ movie, setSearchTerm }) => {
   return (
     <div className="movie" onClick={addMovieToQuestion}>
       <div>Select</div>
-
       <div>
         <img
           src={

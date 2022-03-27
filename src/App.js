@@ -11,9 +11,9 @@ import {
 import "./App.css";
 
 // Components
-import Quiz from "./Quiz";
-import ConfigureQuiz from "./ConfigureQuiz";
-import Home from "./Home";
+import Quiz from "./components/quiz/Quiz";
+import ConfigureQuiz from "./components/configure/ConfigureQuiz";
+import Mainmenu from "./components/main-menu/Mainmenu";
 
 // Context exports
 export const QuizQuestionsContext = createContext();
@@ -21,16 +21,19 @@ export const QuizGameContext = createContext();
 
 const App = () => {
   const [questions, setQuestions] = useState([]);
+  const [guessCount, setGuessCount] = useState(3);
 
   return (
     <QuizQuestionsContext.Provider value={{ questions, setQuestions }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/startgame" element={<Quiz />} />
-          <Route path="/configure" element={<ConfigureQuiz />} />
-        </Routes>
-      </Router>
+      <QuizGameContext.Provider value={{ guessCount, setGuessCount }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Mainmenu />} />
+            <Route path="/startgame" element={<Quiz />} />
+            <Route path="/configure" element={<ConfigureQuiz />} />
+          </Routes>
+        </Router>
+      </QuizGameContext.Provider>
     </QuizQuestionsContext.Provider>
   );
 };

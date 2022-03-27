@@ -106,3 +106,27 @@ h1 {
 .wrongRed {
   color: #f50505;
 }
+
+.activeQuestionSet {
+  background-color: #006611;
+}
+
+.userDefineQuestionContainer {
+  display: inline-block;
+  flex-direction: column;
+  background-color: #272727;
+  border-radius: 8px;
+  border: 0;
+  padding: 0.5rem;
+}
+
+.currentQuestionSet {
+  display: block;
+  border: 0;
+}
+
+.questionSetContainer {
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 8px;
+}

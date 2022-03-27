@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+
+import { QuizGameContext } from "../../App";
 
 // Components
-import StartGame from "./components/quiz/StartGame";
-import MovieCard from "./components/quiz/MovieCard";
-import SubmitGuess from "./components/quiz/SubmitGuess";
-import GameOver from "./components/quiz/GameOver";
-import RestartGame from "./components/quiz/RestartGame";
+import StartGame from "../main-menu/StartGame";
+import MovieCard from "./MovieCard";
+import SubmitGuess from "./SubmitGuess";
+import GameOver from "./GameOver";
+import RestartGame from "./RestartGame";
 
 // API Import
-import MovieAPI from "./MovieAPI";
+import MovieAPI from "../API/MovieAPI";
 
 // CONSTANTS
-const NUMBER_OF_USER_GUESSES = 3;
+
 const CURRENT_YEAR = new Date().getFullYear();
 
 const Quiz = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
   // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
   const QuestionSet1 = ["tt1877830", "tt0407887"];
+
+  const { guessCount, setGuessCount } = useContext(QuizGameContext);
+  console.log(guessCount);
+  const NUMBER_OF_USER_GUESSES = guessCount;
+
   // States
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -26,20 +33,19 @@ const Quiz = () => {
   const [result, setResult] = useState([]);
   const [year, setYear] = useState("");
   const [score, setScore] = useState(0);
-  const [remainingGuesses, setRemainingGuesses] = useState(
-    NUMBER_OF_USER_GUESSES
-  );
+  const [remainingGuesses, setRemainingGuesses] = useState(3);
 
+  // Previously used start game function
   //functions
-  const startGame = async () => {
-    setLoading(true);
-    setGameOver(false);
-    setQuestionSet(await MovieAPI(QuestionSet1));
-    setScore(0);
-    setRemainingGuesses(NUMBER_OF_USER_GUESSES);
-    setCurrentQuestionNumber(0);
-    setLoading(false);
-  };
+  // const startGame = async () => {
+  //   setLoading(true);
+  //   setGameOver(false);
+  //   setQuestionSet(await MovieAPI(QuestionSet1));
+  //   setScore(0);
+  //   setRemainingGuesses(NUMBER_OF_USER_GUESSES);
+  //   setCurrentQuestionNumber(0);
+  //   setLoading(false);
+  // };
 
   const checkGameOver = () => {
     if (currentQuestionNumber === questionSet.length - 1) {
@@ -110,11 +116,7 @@ const Quiz = () => {
   return (
     <div className="Quiz">
       {!gameOver ? (
-        questionSet.length === 0 ? (
-          <>
-            <StartGame startGame={startGame} />
-          </>
-        ) : (
+        questionSet.length === 0 ? null : ( // ) //   </> //     <StartGame startGame={startGame} /> //   <> // (
           <div className="QuestionContainer">
             <div className="GameInfo">
               <h3>

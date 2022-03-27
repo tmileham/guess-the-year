@@ -1,15 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const RestartGame = () => {
-  const restartGame = () => {
-    window.location.reload();
-  };
-
   return (
     <>
-      <button className="startGameButton submitButton" onClick={restartGame}>
-        Play Again!
-      </button>
+      <Link to="/">
+        <button className="startGameButton submitButton">Return to menu</button>
+      </Link>
     </>
   );
 };

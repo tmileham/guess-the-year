@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import MovieResult from "./MovieResult";
-import SearchIcon from "../../search.svg";
+import SearchIcon from "../../assets/svg/search.svg";
 
 const API_URL = "http://www.omdbapi.com/?apikey=42041cf9";
 
@@ -28,6 +28,7 @@ const MovieSearch = () => {
         <input
           placeholder="Search for a movie"
           value={searchTerm}
+          ref={(input) => input && input.focus()}
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}

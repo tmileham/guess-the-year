@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const StartGame = ({ startGame }) => {
+const StartGame = () => {
   return (
     <>
-      <button className="startGameButton submitButton" onClick={startGame}>
-        Start Game
-      </button>
+      <Link to="/startgame">
+        <button className="startGameButton submitButton">Start Game</button>
+      </Link>
     </>
   );
 };

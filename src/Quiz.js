@@ -30,7 +30,7 @@ const Quiz = () => {
     NUMBER_OF_USER_GUESSES
   );
 
-  // functions
+  //functions
   const startGame = async () => {
     setLoading(true);
     setGameOver(false);
@@ -52,17 +52,17 @@ const Quiz = () => {
     console.log(result);
   };
 
-  // // UseEffect alternative for StartGame, game starts automatically.
-  // useEffect(() => {
-  //  setLoading(true);
-  //  setGameOver(false);
-  //   (async () => {
-  //     setQuestionSet(await MovieAPI(QuestionSet1));
-  //   })();
-  // setScore(0);
-  // setCurrentQuestionNumber(0);
-  // setLoading(false);
-  // }, []);
+  // UseEffect alternative for StartGame, game starts automatically.
+  useEffect(() => {
+    setLoading(true);
+    setGameOver(false);
+    (async () => {
+      setQuestionSet(await MovieAPI(QuestionSet1));
+    })();
+    setScore(0);
+    setCurrentQuestionNumber(0);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     setYear("");

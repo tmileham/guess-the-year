@@ -6,8 +6,10 @@ import { predefinedQuestions } from "../../assets/Questions";
 
 const Configure = () => {
   const { guessCount, setGuessCount } = useContext(QuizGameContext);
-  const { questionData, setQuestionData } = useContext(QuizQuestionsContext);
+  const { questions, setQuestions, questionData, setQuestionData } =
+    useContext(QuizQuestionsContext);
 
+  // Functions
   const guessCountHandler = (e) => {
     if (Number(e.target.value) !== 0) {
       setGuessCount(Number(e.target.value));
@@ -27,23 +29,38 @@ const Configure = () => {
 
   useEffect(() => {
     setQuestionData(combinedQuestions);
-  }, []);
+  }, [combinedQuestions]);
 
   return (
     <>
       <h2>Quiz Options</h2>
       <p>Select question set:</p>
       <div className="questionSetContainer">
-        {questionData.length > 0
-          ? questionData.map((genre) => {
-              return (
-                <button className="currentQuestionSet" onClick={null}>
-                  {genre.name}
-                </button>
-              );
-            })
-          : null}
-
+        <ul>
+          {questionData.length > 0
+            ? questionData.map((genre, index) => {
+                if (genre.questions.length > 0) {
+                  return (
+                    <li key={index}>
+                      <button
+                        className={
+                          genre.name === questions.name
+                            ? "currentQuestionSet activeQuestionSet"
+                            : "currentQuestionSet"
+                        }
+                        onClick={() => {
+                          setQuestions(genre);
+                        }}
+                      >
+                        {genre.name}
+                      </button>
+                    </li>
+                  );
+                } else {
+                }
+              })
+            : null}
+        </ul>
         {/* 
         <button className="currentQuestionSet" onClick={null}>
           Animation

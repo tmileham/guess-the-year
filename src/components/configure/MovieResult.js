@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { QuizQuestionsContext } from "../../App";
 
 const MovieCard = ({ movie, setSearchTerm }) => {
-  const { questions, setQuestions } = useContext(QuizQuestionsContext);
+  const { userSelectedQuestions, setUserSelectedQuestions } =
+    useContext(QuizQuestionsContext);
 
   const addMovieToQuestion = () => {
-    if (!questions.includes(movie)) {
-      setQuestions([...questions, movie]);
+    if (!userSelectedQuestions.includes(movie)) {
+      setUserSelectedQuestions([...userSelectedQuestions, movie]);
       setSearchTerm("");
     }
   };

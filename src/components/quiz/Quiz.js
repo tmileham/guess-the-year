@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { QuizGameContext } from "../../App";
+import { QuizGameContext, QuizQuestionsContext } from "../../App";
 
 // Components
 import MovieCard from "./MovieCard";
@@ -19,10 +19,12 @@ const Quiz = () => {
   // Array of Movies - TODO: Allow user to dynamically create these
   // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
   const QuestionSet1 = ["tt1877830", "tt0407887"];
-
+  const { questions, setQuestions } = useContext(QuizQuestionsContext);
   const { guessCount } = useContext(QuizGameContext);
   console.log(guessCount);
   const NUMBER_OF_USER_GUESSES = guessCount;
+
+  console.log();
 
   // States
   const [loading, setLoading] = useState(false);
@@ -46,6 +48,13 @@ const Quiz = () => {
   //   setLoading(false);
   // };
 
+  const shuffleQuestions = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
+
   const checkGameOver = () => {
     if (currentQuestionNumber === questionSet.length - 1) {
       setGameOver(true);
@@ -62,7 +71,7 @@ const Quiz = () => {
     setLoading(true);
     setGameOver(false);
     (async () => {
-      setQuestionSet(await MovieAPI(QuestionSet1));
+      setQuestionSet(await MovieAPI(questions.questions));
     })();
     setScore(0);
     setCurrentQuestionNumber(0);

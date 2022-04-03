@@ -10,6 +10,7 @@ const MovieAPI = async (arr) => {
       return data;
     })
   );
+
   return QuestionsArray;
 };
 

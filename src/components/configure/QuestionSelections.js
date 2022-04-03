@@ -4,23 +4,29 @@ import { useNavigate } from "react-router-dom";
 import { QuizQuestionsContext } from "../../App";
 
 const QuestionSelections = () => {
-  const { questions, setQuestions } = useContext(QuizQuestionsContext);
+  const { userSelectedQuestions, setUserSelectedQuestions } =
+    useContext(QuizQuestionsContext);
   const returnLink = useNavigate();
 
-  // Removes Movie from questions array
+  // Removes Movie from userSelectedQuestions array
   const removeSelectedQuestionItem = (e) => {
     const removeID = e.target.getAttribute("data-id");
-    const arrPosition = questions.findIndex((element) => (element = removeID));
+    const arrPosition = userSelectedQuestions.findIndex(
+      (element) => (element = removeID)
+    );
 
-    setQuestions([
-      ...questions.slice(0, arrPosition),
-      ...questions.slice(arrPosition + 1),
+    setUserSelectedQuestions([
+      ...userSelectedQuestions.slice(0, arrPosition),
+      ...userSelectedQuestions.slice(arrPosition + 1),
     ]);
   };
 
   // Discard changes and return to menu
   const discardSelections = () => {
-    setQuestions([]);
+    setUserSelectedQuestions([]);
+  };
+
+  const exitToMenu = () => {
     returnLink("/");
   };
 
@@ -31,7 +37,7 @@ const QuestionSelections = () => {
       questions: [],
     };
 
-    questions.map((question) => {
+    userSelectedQuestions.map((question) => {
       localQuestions.questions.push(question.imdbID);
     });
 
@@ -46,8 +52,8 @@ const QuestionSelections = () => {
     <>
       <div className="SelectedItems">
         <div className="ItemContainer">
-          {questions.length
-            ? questions.map((question) => (
+          {userSelectedQuestions.length
+            ? userSelectedQuestions.map((question) => (
                 <div className="selectedQuestionItem">
                   <p>{question.Title}</p>
                   <div
@@ -65,7 +71,8 @@ const QuestionSelections = () => {
           {/* <h5>Selected Movies:</h5> */}
           <button onClick={saveQuestions}>Save</button>
 
-          <button onClick={discardSelections}>Discard and exit</button>
+          <button onClick={discardSelections}>Clear</button>
+          <button onClick={exitToMenu}>Exit</button>
         </div>
       </div>
     </>

@@ -16,11 +16,19 @@ export const QuizGameContext = createContext();
 const App = () => {
   const [questionData, setQuestionData] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [userSelectedQuestions, setUserSelectedQuestions] = useState([]);
   const [guessCount, setGuessCount] = useState(3);
 
   return (
     <QuizQuestionsContext.Provider
-      value={{ questionData, setQuestionData, questions, setQuestions }}
+      value={{
+        questionData,
+        setQuestionData,
+        questions,
+        setQuestions,
+        userSelectedQuestions,
+        setUserSelectedQuestions,
+      }}
     >
       <QuizGameContext.Provider value={{ guessCount, setGuessCount }}>
         <Router>

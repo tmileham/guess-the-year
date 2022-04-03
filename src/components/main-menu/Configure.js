@@ -1,10 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { QuizGameContext } from "../../App";
+import { QuizGameContext, QuizQuestionsContext } from "../../App";
+import { predefinedQuestions } from "../../assets/Questions";
 
 const Configure = () => {
   const { guessCount, setGuessCount } = useContext(QuizGameContext);
+  const { questionData, setQuestionData } = useContext(QuizQuestionsContext);
 
   const guessCountHandler = (e) => {
     if (Number(e.target.value) !== 0) {
@@ -12,15 +14,37 @@ const Configure = () => {
     }
   };
 
+  const getLocalSavedQuestions = () => {
+    return [JSON.parse(localStorage.getItem("Quiz"))];
+  };
+
+  const buttonHandler = (selectedQuestions) => {
+    console.log(selectedQuestions);
+  };
+
+  const localQuestions = getLocalSavedQuestions();
+  const combinedQuestions = [...predefinedQuestions, ...localQuestions];
+
+  useEffect(() => {
+    setQuestionData(combinedQuestions);
+  }, []);
+
   return (
     <>
       <h2>Quiz Options</h2>
-
+      <p>Select question set:</p>
       <div className="questionSetContainer">
-        <p>Select question set:</p>
-        <button className="currentQuestionSet activeQuestionSet" onClick={null}>
-          Golden Oldies
-        </button>
+        {questionData.length > 0
+          ? questionData.map((genre) => {
+              return (
+                <button className="currentQuestionSet" onClick={null}>
+                  {genre.name}
+                </button>
+              );
+            })
+          : null}
+
+        {/* 
         <button className="currentQuestionSet" onClick={null}>
           Animation
         </button>
@@ -28,9 +52,10 @@ const Configure = () => {
           <button className="currentQuestionSet" onClick={null}>
             User Defined
           </button>
-          <div>
-            <Link to="/configure">Select your own movies</Link>
-          </div>
+         
+        </div> */}
+        <div>
+          <Link to="/configure">Select your own movies</Link>
         </div>
       </div>
       <div className="attemptCounterContainer">

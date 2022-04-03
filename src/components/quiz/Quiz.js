@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { QuizGameContext } from "../../App";
 
 // Components
-import StartGame from "../main-menu/StartGame";
 import MovieCard from "./MovieCard";
 import SubmitGuess from "./SubmitGuess";
 import GameOver from "./GameOver";
@@ -21,7 +20,7 @@ const Quiz = () => {
   // const QuestionSet1 = ["tt1877830", "tt0407887", "tt1637725", "tt1119646"];
   const QuestionSet1 = ["tt1877830", "tt0407887"];
 
-  const { guessCount, setGuessCount } = useContext(QuizGameContext);
+  const { guessCount } = useContext(QuizGameContext);
   console.log(guessCount);
   const NUMBER_OF_USER_GUESSES = guessCount;
 

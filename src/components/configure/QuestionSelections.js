@@ -27,14 +27,15 @@ const QuestionSelections = () => {
   const saveQuestions = () => {
     console.log("test");
     const localQuestions = {
-      set01: [],
+      name: "User Defined",
+      questions: [],
     };
 
     questions.map((question) => {
-      localQuestions.set01.push(question.imdbID);
+      localQuestions.questions.push(question.imdbID);
     });
 
-    localStorage.setItem("Quiz2", JSON.stringify(localQuestions));
+    localStorage.setItem("Quiz", JSON.stringify(localQuestions));
     returnLink("/");
   };
 

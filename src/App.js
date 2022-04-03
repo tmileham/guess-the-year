@@ -1,11 +1,5 @@
 import React, { useState, createContext } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Styling
 import "./App.css";
@@ -20,11 +14,14 @@ export const QuizQuestionsContext = createContext();
 export const QuizGameContext = createContext();
 
 const App = () => {
+  const [questionData, setQuestionData] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [guessCount, setGuessCount] = useState(3);
 
   return (
-    <QuizQuestionsContext.Provider value={{ questions, setQuestions }}>
+    <QuizQuestionsContext.Provider
+      value={{ questionData, setQuestionData, questions, setQuestions }}
+    >
       <QuizGameContext.Provider value={{ guessCount, setGuessCount }}>
         <Router>
           <Routes>
